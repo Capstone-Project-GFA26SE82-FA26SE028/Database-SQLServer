@@ -19,8 +19,8 @@ GO
 CREATE TABLE dbo.[Role]
 (
     RoleId      varchar(50)   NOT NULL,
-    RoleName    nvarchar(50)  NOT NULL,
-    Description nvarchar(max) NULL,
+    RoleName    varchar(50)  NOT NULL,
+    Description varchar(max) NULL,
 
     CONSTRAINT PK_Role PRIMARY KEY (RoleId)
 );
@@ -30,15 +30,15 @@ CREATE TABLE dbo.[User]
 (
     UserId       uniqueidentifier NOT NULL,
     RoleId       varchar(50)       NOT NULL,
-    UserName     nvarchar(100)     NOT NULL,
-    Email        nvarchar(255)     NOT NULL,
+    UserName     varchar(100)     NOT NULL,
+    Email        varchar(255)     NOT NULL,
     PhoneNumber  varchar(20)       NULL,
-    FullName     nvarchar(255)     NOT NULL,
-    AvatarUrl    nvarchar(max)     NULL,
+    FullName     varchar(255)     NOT NULL,
+    AvatarUrl    varchar(max)     NULL,
     PasswordHash varchar(max)      NOT NULL,
     IsActive     bit               NOT NULL,
-    CreatedAt    datetimeoffset(7) NOT NULL,
-    UpdatedAt    datetimeoffset(7) NULL,
+    CreatedAt    datetime NOT NULL,
+    UpdatedAt    datetime NULL,
 
     CONSTRAINT PK_User PRIMARY KEY (UserId),
     CONSTRAINT FK_User_Role FOREIGN KEY (RoleId)
@@ -51,10 +51,10 @@ CREATE TABLE dbo.UserSession
     UserSessionId uniqueidentifier NOT NULL,
     UserId        uniqueidentifier NOT NULL,
     IpAddress     varchar(45)       NULL,
-    UserAgent     nvarchar(max)     NULL,
+    UserAgent     varchar(max)     NULL,
     DeviceType    varchar(50)       NULL,
-    LoggedInAt    datetimeoffset(7) NOT NULL,
-    ExpiresAt     datetimeoffset(7) NOT NULL,
+    LoggedInAt    datetime NOT NULL,
+    ExpiresAt     datetime NOT NULL,
 
     CONSTRAINT PK_UserSession PRIMARY KEY (UserSessionId),
     CONSTRAINT FK_UserSession_User FOREIGN KEY (UserId)
@@ -65,14 +65,14 @@ GO
 CREATE TABLE dbo.AuditLog
 (
     AuditLogId  uniqueidentifier NOT NULL,
-    ActorUserId uniqueidentifier NULL,
+    UserId uniqueidentifier NULL,
     Action      varchar(100)      NOT NULL,
     EntityName  varchar(100)      NOT NULL,
     EntityId    varchar(255)      NULL,
-    OldValue    nvarchar(max)     NULL,
-    NewValue    nvarchar(max)     NULL,
+    OldValue    varchar(max)     NULL,
+    NewValue    varchar(max)     NULL,
     IpAddress   varchar(45)       NULL,
-    CreatedAt   datetimeoffset(7) NOT NULL,
+    CreatedAt   datetime NOT NULL,
 
     CONSTRAINT PK_AuditLog PRIMARY KEY (AuditLogId),
     CONSTRAINT FK_AuditLog_User FOREIGN KEY (ActorUserId)
