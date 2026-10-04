@@ -19,12 +19,12 @@ GO
 CREATE TABLE dbo.Restaurant
 (
     RestaurantId   uniqueidentifier NOT NULL,
-    RestaurantName nvarchar(255)    NOT NULL,
+    RestaurantName varchar(255)     NOT NULL,
     TaxCode        varchar(50)      NULL,
-    Address        nvarchar(500)    NOT NULL,
+    Address        varchar(500)     NOT NULL,
     Hotline        varchar(20)      NULL,
-    LogoUrl        nvarchar(max)    NULL,
-    TimeZone       nvarchar(100)    NOT NULL,
+    LogoUrl        varchar(max)     NULL,
+    TimeZone       varchar(100)     NOT NULL,
 
     CONSTRAINT PK_Restaurant PRIMARY KEY (RestaurantId)
 );
@@ -34,7 +34,7 @@ CREATE TABLE dbo.OpeningHour
 (
     OpeningHourId uniqueidentifier NOT NULL,
     RestaurantId  uniqueidentifier NOT NULL,
-    DayOfWeek     tinyint          NOT NULL,
+    DayOfWeek     int              NOT NULL,
     OpenAt        time(0)          NOT NULL,
     CloseAt       time(0)          NOT NULL,
 
@@ -49,7 +49,7 @@ CREATE TABLE dbo.Area
     AreaId       uniqueidentifier NOT NULL,
     RestaurantId uniqueidentifier NOT NULL,
     AreaCode     varchar(50)      NOT NULL,
-    AreaName     nvarchar(100)    NOT NULL,
+    AreaName     varchar(100)     NOT NULL,
     ServiceType  varchar(50)      NOT NULL,
     SpaceType    varchar(50)      NOT NULL,
     IsActive     bit              NOT NULL,
@@ -83,8 +83,8 @@ CREATE TABLE dbo.Qr
     QrId      uniqueidentifier NOT NULL,
     TableId   uniqueidentifier NOT NULL,
     TokenHash varchar(255)     NOT NULL,
-    CreatedAt datetimeoffset(7) NOT NULL,
-    RevokedAt datetimeoffset(7) NULL,
+    CreatedAt datetime         NOT NULL,
+    RevokedAt datetime         NULL,
 
     CONSTRAINT PK_Qr PRIMARY KEY (QrId),
     CONSTRAINT FK_Qr_Table FOREIGN KEY (TableId)
@@ -95,12 +95,12 @@ GO
 CREATE TABLE dbo.Reservation
 (
     ReservationId uniqueidentifier NOT NULL,
-    ContactName   nvarchar(255)    NOT NULL,
+    ContactName   varchar(255)     NOT NULL,
     Phone         varchar(20)      NOT NULL,
     PartySize     int              NOT NULL,
-    StartAt       datetimeoffset(7) NOT NULL,
-    EndAt         datetimeoffset(7) NOT NULL,
-    HoldUntil     datetimeoffset(7) NULL,
+    StartAt       datetime         NOT NULL,
+    EndAt         datetime         NOT NULL,
+    HoldUntil     datetime         NULL,
     Status        varchar(50)      NOT NULL,
     ApprovedByRef uniqueidentifier NULL,
 
@@ -132,13 +132,13 @@ CREATE TABLE dbo.TableSession
     ReservationId      uniqueidentifier NULL,
     PartySize          int              NOT NULL,
     Status             varchar(50)      NOT NULL,
-    OpenedAt           datetimeoffset(7) NOT NULL,
-    ClosedAt           datetimeoffset(7) NULL,
+    OpenedAt           datetime         NOT NULL,
+    ClosedAt           datetime         NULL,
     OpenedByRef        uniqueidentifier NULL,
     JoinCodeHash       varchar(255)     NULL,
-    JoinCodeSetAt      datetimeoffset(7) NULL,
+    JoinCodeSetAt      datetime         NULL,
     LoyaltyCustomerRef uniqueidentifier NULL,
-    PrebillPrintedAt   datetimeoffset(7) NULL,
+    PrebillPrintedAt   datetime         NULL,
 
     CONSTRAINT PK_TableSession PRIMARY KEY (TableSessionId),
     CONSTRAINT FK_TableSession_Reservation FOREIGN KEY (ReservationId)
@@ -158,10 +158,10 @@ CREATE TABLE dbo.SessionTable
     SessionTableId uniqueidentifier NOT NULL,
     TableSessionId uniqueidentifier NOT NULL,
     TableId        uniqueidentifier NOT NULL,
-    AssignedAt     datetimeoffset(7) NOT NULL,
-    ReleasedAt     datetimeoffset(7) NULL,
+    AssignedAt     datetime         NOT NULL,
+    ReleasedAt     datetime         NULL,
     ChangedByRef   uniqueidentifier NULL,
-    MoveReason     nvarchar(500)    NULL,
+    MoveReason     varchar(500)     NULL,
 
     CONSTRAINT PK_SessionTable PRIMARY KEY (SessionTableId),
     CONSTRAINT FK_SessionTable_TableSession FOREIGN KEY (TableSessionId)
@@ -177,9 +177,9 @@ CREATE TABLE dbo.ServiceRequest
     TableSessionId   uniqueidentifier NOT NULL,
     Type             varchar(50)      NOT NULL,
     Status           varchar(50)      NOT NULL,
-    RequestedAt      datetimeoffset(7) NOT NULL,
-    AcknowledgedAt   datetimeoffset(7) NULL,
-    CompletedAt      datetimeoffset(7) NULL,
+    RequestedAt      datetime         NOT NULL,
+    AcknowledgedAt   datetime         NULL,
+    CompletedAt      datetime         NULL,
     HandledByRef     uniqueidentifier NULL,
 
     CONSTRAINT PK_ServiceRequest PRIMARY KEY (ServiceRequestId),
@@ -193,9 +193,9 @@ CREATE TABLE dbo.GuestAccess
     GuestAccessId  uniqueidentifier NOT NULL,
     TableSessionId uniqueidentifier NOT NULL,
     TokenHash      varchar(255)     NOT NULL,
-    CreatedAt      datetimeoffset(7) NOT NULL,
-    ExpiredAt      datetimeoffset(7) NOT NULL,
-    RevokedAt      datetimeoffset(7) NULL,
+    CreatedAt      datetime         NOT NULL,
+    ExpiredAt      datetime         NOT NULL,
+    RevokedAt      datetime         NULL,
 
     CONSTRAINT PK_GuestAccess PRIMARY KEY (GuestAccessId),
     CONSTRAINT FK_GuestAccess_TableSession FOREIGN KEY (TableSessionId)
