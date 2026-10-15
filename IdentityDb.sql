@@ -48,17 +48,23 @@ GO
 
 CREATE TABLE dbo.UserSession
 (
-    UserSessionId uniqueidentifier NOT NULL,
-    UserId        uniqueidentifier NOT NULL,
-    IpAddress     varchar(45)       NULL,
-    UserAgent     varchar(max)     NULL,
-    DeviceType    varchar(50)       NULL,
-    LoggedInAt    datetime NOT NULL,
-    ExpiresAt     datetime NOT NULL,
+    UserSessionId    uniqueidentifier NOT NULL,
+    UserId          uniqueidentifier NOT NULL,
+    IpAddress       varchar(45)      NULL,
+    UserAgent       varchar(max)     NULL,
+    DeviceType      varchar(50)      NULL,
+    RefreshTokenHash varchar(64)     NOT NULL,
+    LoggedInAt      datetime         NOT NULL,
+    ExpiresAt       datetime         NOT NULL,
+    RevokedAt       datetime         NULL,
 
     CONSTRAINT PK_UserSession PRIMARY KEY (UserSessionId),
+
     CONSTRAINT FK_UserSession_User FOREIGN KEY (UserId)
-        REFERENCES dbo.[User](UserId)
+        REFERENCES dbo.[User](UserId),
+
+    CONSTRAINT UQ_UserSession_RefreshTokenHash
+        UNIQUE (RefreshTokenHash)
 );
 GO
 
@@ -75,7 +81,7 @@ CREATE TABLE dbo.AuditLog
     CreatedAt   datetime NOT NULL,
 
     CONSTRAINT PK_AuditLog PRIMARY KEY (AuditLogId),
-    CONSTRAINT FK_AuditLog_User FOREIGN KEY (ActorUserId)
+    CONSTRAINT FK_AuditLog_User FOREIGN KEY (UserId)
         REFERENCES dbo.[User](UserId)
 );
 GO
