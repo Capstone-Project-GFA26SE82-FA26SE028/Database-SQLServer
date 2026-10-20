@@ -1,4 +1,4 @@
-﻿-- Fresh database initialization. This script drops an existing RestaurantDb and all its data.
+-- Fresh database initialization. This script drops an existing RestaurantDb and all its data.
 
 USE master;
 GO
@@ -32,15 +32,12 @@ CREATE TABLE dbo.Restaurant
 );
 GO
 
-CREATE TABLE dbo.RestaurantStaff
-(
+CREATE TABLE dbo.RestaurantStaff (
     RestaurantId uniqueidentifier NOT NULL,
     UserIdRef uniqueidentifier NOT NULL,
     IsActive bit NOT NULL,
-
     CONSTRAINT PK_RestaurantStaff PRIMARY KEY (RestaurantId, UserIdRef),
-    CONSTRAINT FK_RestaurantStaff_Restaurant FOREIGN KEY (RestaurantId)
-        REFERENCES dbo.Restaurant(RestaurantId)
+    CONSTRAINT FK_RestaurantStaff_Restaurant FOREIGN KEY (RestaurantId) REFERENCES dbo.Restaurant(RestaurantId)
 );
 GO
 
@@ -119,6 +116,9 @@ CREATE TABLE dbo.Reservation
     HoldUntil     datetime         NULL,
     Status        varchar(50)      NOT NULL,
     ApprovedByRef uniqueidentifier NULL,
+    ConfirmedAt   datetime         NULL,
+    CancelledAt   datetime         NULL,
+    CancelledByRef uniqueidentifier NULL,
 
     CONSTRAINT PK_Reservation PRIMARY KEY (ReservationId),
     CONSTRAINT FK_Reservation_Restaurant FOREIGN KEY (RestaurantId)
