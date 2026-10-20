@@ -1,3 +1,5 @@
+﻿-- Fresh database initialization. This script drops an existing RestaurantDb and all its data.
+
 USE master;
 GO
 
@@ -27,6 +29,18 @@ CREATE TABLE dbo.Restaurant
     TimeZone       varchar(100)     NOT NULL,
 
     CONSTRAINT PK_Restaurant PRIMARY KEY (RestaurantId)
+);
+GO
+
+CREATE TABLE dbo.RestaurantStaff
+(
+    RestaurantId uniqueidentifier NOT NULL,
+    UserIdRef uniqueidentifier NOT NULL,
+    IsActive bit NOT NULL,
+
+    CONSTRAINT PK_RestaurantStaff PRIMARY KEY (RestaurantId, UserIdRef),
+    CONSTRAINT FK_RestaurantStaff_Restaurant FOREIGN KEY (RestaurantId)
+        REFERENCES dbo.Restaurant(RestaurantId)
 );
 GO
 
@@ -95,6 +109,8 @@ GO
 CREATE TABLE dbo.Reservation
 (
     ReservationId uniqueidentifier NOT NULL,
+    RestaurantId  uniqueidentifier NOT NULL,
+    RequestedAreaId uniqueidentifier NOT NULL,
     ContactName   varchar(255)     NOT NULL,
     Phone         varchar(20)      NOT NULL,
     PartySize     int              NOT NULL,
@@ -104,8 +120,20 @@ CREATE TABLE dbo.Reservation
     Status        varchar(50)      NOT NULL,
     ApprovedByRef uniqueidentifier NULL,
 
-    CONSTRAINT PK_Reservation PRIMARY KEY (ReservationId)
+    CONSTRAINT PK_Reservation PRIMARY KEY (ReservationId),
+    CONSTRAINT FK_Reservation_Restaurant FOREIGN KEY (RestaurantId)
+        REFERENCES dbo.Restaurant(RestaurantId),
+    CONSTRAINT FK_Reservation_RequestedArea FOREIGN KEY (RequestedAreaId)
+        REFERENCES dbo.Area(AreaId)
 );
+GO
+
+CREATE INDEX IX_Reservation_RestaurantId_Status_StartAt
+    ON dbo.Reservation(RestaurantId, Status, StartAt);
+GO
+
+CREATE INDEX IX_Reservation_RequestedAreaId
+    ON dbo.Reservation(RequestedAreaId);
 GO
 
 CREATE TABLE dbo.ReservationTable
