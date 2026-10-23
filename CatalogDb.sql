@@ -36,7 +36,7 @@ CREATE TABLE dbo.Item
     Description             varchar(max)     NULL,
     ImageUrl                varchar(max)     NULL,
     Availability            varchar(50)      NOT NULL,
-    PreparationTimeMinutes  INT              NOT NULL,
+    PreparationTimeMinutes  INT              NULL,
     KitchenStationRef       uniqueidentifier NULL,
     Version                 rowversion       NOT NULL,
 
