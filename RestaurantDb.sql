@@ -97,6 +97,7 @@ CREATE TABLE dbo.Qr
     QrId      uniqueidentifier NOT NULL,
     TableId   uniqueidentifier NOT NULL,
     TokenHash varchar(255)     NOT NULL,
+    ImageUrl  varchar(2048)    NULL,
     CreatedAt datetime         NOT NULL,
     RevokedAt datetime         NULL,
 
