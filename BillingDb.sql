@@ -22,6 +22,7 @@ GO
 CREATE TABLE dbo.Bill
 (
     BillId              uniqueidentifier NOT NULL,
+    RestaurantId        uniqueidentifier NOT NULL,
     BillNumber          varchar(50)      NOT NULL,
     CustomerRef         uniqueidentifier NULL,
     Status              varchar(50)      NOT NULL,
@@ -55,7 +56,7 @@ CREATE TABLE dbo.BillLine
     DiscountAllocated decimal(18, 2)   NOT NULL,
     VatAllocated      decimal(18, 2)   NOT NULL,
     ServiceAllocated  decimal(18, 2)   NOT NULL,
-    CogsSnapshot      decimal(18, 2)   NOT NULL,
+    CogsSnapshot      decimal(18, 2)   NULL,
 
     CONSTRAINT PK_BillLine PRIMARY KEY (BillLineId),
     CONSTRAINT FK_BillLine_Bill FOREIGN KEY (BillId)
@@ -187,6 +188,7 @@ GO
 CREATE TABLE dbo.CashRegister
 (
     CashRegisterId uniqueidentifier NOT NULL,
+    RestaurantId   uniqueidentifier NOT NULL,
     Code           varchar(50)      NOT NULL,
 
     CONSTRAINT PK_CashRegister PRIMARY KEY (CashRegisterId)
