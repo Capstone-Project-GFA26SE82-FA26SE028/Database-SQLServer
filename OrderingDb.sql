@@ -178,6 +178,7 @@ CREATE TABLE dbo.KitchenTask
     QueuedAt         datetime         NOT NULL,
     CookingAt        datetime         NULL,
     ReadyAt          datetime         NULL,
+    EstimatedMinutes int              NULL,
     Version          rowversion       NOT NULL,
 
     CONSTRAINT PK_KitchenTask PRIMARY KEY (KitchenTaskId),

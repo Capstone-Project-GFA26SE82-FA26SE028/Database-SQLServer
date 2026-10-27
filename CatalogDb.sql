@@ -29,15 +29,16 @@ GO
 
 CREATE TABLE dbo.Item
 (
-    ItemId            uniqueidentifier NOT NULL,
-    CategoryId        uniqueidentifier NOT NULL,
-    ItemCode          varchar(50)      NOT NULL,
-    ItemName          varchar(255)     NOT NULL,
-    Description       varchar(max)     NULL,
-    ImageUrl          varchar(max)     NULL,
-    Availability      varchar(50)      NOT NULL,
-    KitchenStationRef uniqueidentifier NULL,
-    Version           rowversion       NOT NULL,
+    ItemId                  uniqueidentifier NOT NULL,
+    CategoryId              uniqueidentifier NOT NULL,
+    ItemCode                varchar(50)      NOT NULL,
+    ItemName                varchar(255)     NOT NULL,
+    Description             varchar(max)     NULL,
+    ImageUrl                varchar(max)     NULL,
+    Availability            varchar(50)      NOT NULL,
+    PreparationTimeMinutes  INT              NULL,
+    KitchenStationRef       uniqueidentifier NULL,
+    Version                 rowversion       NOT NULL,
 
     CONSTRAINT PK_Item PRIMARY KEY (ItemId),
     CONSTRAINT FK_Item_Category FOREIGN KEY (CategoryId)
